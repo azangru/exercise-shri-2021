@@ -1,5 +1,7 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 
+import '../components/avatar';
+
 import { User } from '../types/user';
 
 type SlideData = {
@@ -17,7 +19,7 @@ class SlideLeaders extends LitElement {
 
   render() {
     console.log('this.data', this.data);
-    return `Hello world!`;
+    return this.data?.users.map(user => html`<x-avatar name="${user.name}" file="${user.avatar}"></x-avatar>`);
   }
 
 }
