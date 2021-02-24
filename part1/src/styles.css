@@ -1,0 +1,10 @@
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+.theme_dark {
+  background: radial-gradient(circle at 50% 50%, #130E00 0%, #000000 100%);
+
+  --avatar-photo-filter: grayscale(100%);
+}

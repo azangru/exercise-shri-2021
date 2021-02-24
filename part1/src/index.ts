@@ -3,6 +3,8 @@ import { renderTemplate } from './render-template';
 
 import { Theme } from './types/theme';
 
+import './styles.css';
+
 const getParameters = () => {
   const url = new URL(window.location.href);
   const slideNumber = parseInt(url.searchParams.get('slide') ?? '1');
