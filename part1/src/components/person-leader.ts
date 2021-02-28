@@ -1,7 +1,7 @@
 import { LitElement, html, css, customElement, property } from 'lit-element';
-// import { ifDefined } from 'lit-html/directives/if-defined';
 
 import './avatar';
+import './avatar-with-emoji';
 
 import { Person } from '../types/person';
 
@@ -11,11 +11,13 @@ class PersonOnLeadersSlide extends LitElement {
   static get styles() {
     return css`
       .person-leader {
+        position: relative;
         display: inline-flex;
         flex-direction: column;
         align-items: center;
         width: 104px;
         height: 162px;
+        padding: 20px 16px;
       }
 
       .person-leader__name {
@@ -32,6 +34,14 @@ class PersonOnLeadersSlide extends LitElement {
         line-height: 16px;
         font-family: var(--font-family-thin);
       }
+
+      .person-leader__emoji {
+        position: absolute;
+        z-index: 1;
+        font-size: 32px;
+        line-height: 1;
+        top: 0;
+      }
     `;
   }
 
@@ -41,10 +51,22 @@ class PersonOnLeadersSlide extends LitElement {
   @property({type: Object})
   data!: Person;
 
+  @property({type: String})
+  emoji?: string;
+
   render() {
-    return html`
+    const avatar = html`
+      <x-avatar
+        name="${this.data.name}"
+        file="${this.data.avatar}"
+      ></x-avatar>`;
+
+      return html`
       <div class="person-leader person-leader_${this.theme}">
-        <x-avatar name="${this.data.name}" file="${this.data.avatar}"></x-avatar>
+        ${ this.emoji ?
+          html`<avatar-with-emoji emoji="${this.emoji}">${avatar}</avatar-with-emoji>`:
+          avatar
+        }
         <div class="person-leader__name">${this.data.name}</div>
         <div class="person-leader__value">${this.data.valueText}</div>
       </div>

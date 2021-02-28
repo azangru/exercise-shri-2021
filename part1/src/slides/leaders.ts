@@ -1,4 +1,5 @@
 import {LitElement, html, customElement, property} from 'lit-element';
+import { ifDefined } from 'lit-html/directives/if-defined';
 
 import { getTheme } from '../theme';
 
@@ -21,16 +22,28 @@ class SlideLeaders extends LitElement {
   theme: string
 
   @property({type: Object})
-  data?: SlideData
+  data!: SlideData
 
   constructor() {
     super();
     this.theme = getTheme();
   }
 
+  private getTopLeaderId() {
+    // users in the data.users array seem to have already been ranked
+    return this.data.users[0].id;
+  }
 
   render() {
-    return this.data?.users.map(user => html`<person-leader .data=${user} theme=${this.theme}></person-leader>`);
+    const topLeaderId = this.getTopLeaderId();
+    return this.data.users.map(user =>
+      html`
+        <person-leader
+          .data=${user}
+          theme=${this.theme}
+          emoji=${ifDefined(user.id === topLeaderId ? this.data.emoji : undefined)}
+        ></person-leader>`
+    );
   }
 
 }

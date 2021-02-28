@@ -12,5 +12,6 @@ export const renderTemplate = (templateName: keyof typeof templateToComponentMap
   const component = templateToComponentMap[templateName];
   const stringifiedData = JSON.stringify(data);
 
+  // note: can't use lit-html here, because it currently doesn't support dynamic tags :-(
   document.body.innerHTML = `<${component} data='${stringifiedData}'></${component}>`;
 };
