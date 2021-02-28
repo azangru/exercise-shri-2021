@@ -1,4 +1,4 @@
-export type User = {
+export type Person = {
   id: number;
   name: string;
   avatar: string;

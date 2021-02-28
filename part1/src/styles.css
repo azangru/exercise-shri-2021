@@ -1,10 +1,68 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   height: 100%;
 }
 
+@font-face {
+  font-family: "Roboto Medium";
+  font-style: normal;
+  font-weight: normal;
+  src: url("./assets/fonts/Roboto-Medium.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Roboto Bold";
+  font-style: normal;
+  font-weight: bold;
+  src: url("./assets/fonts/Roboto-Bold.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Roboto Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: url("./assets/fonts/Roboto-Regular.ttf") format('truetype');
+}
+
+:root {
+  --color-black: #261C00;
+  --color-grey-on-light: #BFBFBF;
+  --color-grey-on-dark: #918F8A;
+  --color-yellow: #F4B000;
+  --color-white: #FCFBF7;
+
+  --font-size-medium: 16px;
+  --font-size-small: 14px;
+
+  --font-family-medium: "Roboto Medium", serif;
+  --font-family-bold: "Roboto Bold", serif;
+  --font-family-thin: "Roboto Regular", serif;
+}
+
+body {
+  font-family: var(--font-family-medium);
+}
+
+.theme_light {
+  --body-color: var(--color-black);
+  --body-grey-color: var(--color-grey-on-light);
+  --slide-title-color: var(--color-black);
+  --slide-subheading-color: var(--color-grey-on-light);
+}
+
 .theme_dark {
   background: radial-gradient(circle at 50% 50%, #130E00 0%, #000000 100%);
+
+  --body-color: var(--color-white);
+  --body-grey-color: var(--color-grey-on-dark);
+  --slide-title-color: var(--color-white);
+  --slide-subheading-color: var(--color-grey-on-dark);
 
   --avatar-photo-filter: grayscale(100%);
 }

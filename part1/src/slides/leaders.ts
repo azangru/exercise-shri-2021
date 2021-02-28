@@ -1,25 +1,36 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 
-import '../components/avatar';
+import { getTheme } from '../theme';
 
-import { User } from '../types/user';
+
+import '../components/person-leader';
+
+import { Person } from '../types/person';
 
 type SlideData = {
   title: string;
   subtitle: string;
   emoji: string;
-  users: User[]
+  users: Person[]
 };
 
 @customElement('slide-leaders')
 class SlideLeaders extends LitElement {
 
+  @property({type: String})
+  theme: string
+
   @property({type: Object})
   data?: SlideData
 
+  constructor() {
+    super();
+    this.theme = getTheme();
+  }
+
+
   render() {
-    console.log('this.data', this.data);
-    return this.data?.users.map(user => html`<x-avatar name="${user.name}" file="${user.avatar}"></x-avatar>`);
+    return this.data?.users.map(user => html`<person-leader .data=${user} theme=${this.theme}></person-leader>`);
   }
 
 }

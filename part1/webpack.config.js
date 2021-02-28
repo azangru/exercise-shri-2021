@@ -47,6 +47,10 @@ module.exports = (env) => {
             'css-loader'
           ],
         },
+        {
+          test: /\.(ttf)$/i,
+          type: 'asset/resource',
+        },  
       ],
     },
     resolve: {

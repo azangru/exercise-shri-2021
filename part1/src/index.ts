@@ -1,5 +1,6 @@
 import { addToWindow } from './helpers/add-to-window';
 import { renderTemplate } from './render-template';
+import { setTheme } from './theme';
 
 import { Theme } from './types/theme';
 
@@ -7,8 +8,8 @@ import './styles.css';
 
 const getParameters = () => {
   const url = new URL(window.location.href);
-  const slideNumber = parseInt(url.searchParams.get('slide') ?? '1');
-  const theme = url.searchParams.get('theme') ?? 'dark' as Theme;
+  const slideNumber = parseInt(url.searchParams.get('slide') ?? '1') - 1;
+  const theme = (url.searchParams.get('theme') ?? 'dark') as Theme;
   return { slideNumber, theme };
 };
 
@@ -20,6 +21,8 @@ const main = async () => {
   const { slideNumber, theme } = getParameters();
   const allSlidesData = await fetchSlideData();
   const slideData = allSlidesData[slideNumber];
+
+  setTheme(theme);
 
   if (slideData) {
     const { alias, data } = slideData;
