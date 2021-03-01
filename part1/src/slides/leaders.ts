@@ -1,7 +1,8 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import { ifDefined } from 'lit-html/directives/if-defined';
 
-import { getTheme } from '../theme';
+import { theme$ } from '../theme';
+import { orientation$ } from '../media-observer';
 
 
 import '../components/person-leader';
@@ -19,14 +20,27 @@ type SlideData = {
 class SlideLeaders extends LitElement {
 
   @property({type: String})
-  theme: string
+  theme!: string
+
+  @property({type: String})
+  orientation!: string
 
   @property({type: Object})
   data!: SlideData
 
   constructor() {
     super();
-    this.theme = getTheme();
+
+    theme$.subscribe(this.onThemeChange); // TODO: unsubscribe on unmount!
+    orientation$.subscribe(this.onOrientationChange);
+  }
+
+  onThemeChange = (theme: string) => {
+    this.theme = theme;
+  }
+
+  onOrientationChange = (orientation: string) => {
+    this.orientation = orientation;
   }
 
   private getTopLeaderId() {
@@ -35,6 +49,8 @@ class SlideLeaders extends LitElement {
   }
 
   render() {
+    console.log(this.theme, this.orientation);
+
     const topLeaderId = this.getTopLeaderId();
     return this.data.users.map(user =>
       html`
