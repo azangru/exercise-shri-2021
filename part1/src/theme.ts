@@ -6,6 +6,8 @@ import {
   startWith
 } from 'rxjs/operators';
 
+import { getUrlParameters } from './get-url-parameters';
+
 import { Theme } from './types/theme';
 
 const getRootThemedElement = () => 
@@ -29,6 +31,11 @@ export const getTheme = (themedElement: HTMLElement) => {
     ?.split('_').pop() as Theme;
 };
 
+const getInitialTheme = () => {
+  const { theme } = getUrlParameters();
+  return theme;
+};
+
 const fromMutationObserver = (target: Node, options: MutationObserverInit) =>
   new Observable<MutationRecord[]>(subscriber => {
     const mutationObserver = new MutationObserver((mutationsList) => {
@@ -46,7 +53,7 @@ export const theme$: Observable<string> = fromMutationObserver(getRootThemedElem
       return from(themes);
     }),
     distinctUntilChanged(),
-    startWith('dark'),
+    startWith(getInitialTheme()),
     share()
   );
 

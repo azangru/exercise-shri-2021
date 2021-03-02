@@ -21,3 +21,5 @@ Problem: due to the shadow DOM isolation, web components are unaware of the clas
 ## Adaptive design
 
 Reference designs are created only for the mobile screen; how should they scale up?
+
+## RxJS to observe theme changes and orientation changes
