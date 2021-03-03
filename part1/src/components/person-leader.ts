@@ -10,6 +10,10 @@ class PersonOnLeadersSlide extends LitElement {
 
   static get styles() {
     return css`
+      :host, :host * {
+        box-sizing: border-box;
+      }
+
       .person-leader {
         position: relative;
         display: inline-flex;
