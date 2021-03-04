@@ -31,14 +31,23 @@ class SlideLeaders extends BaseSlide {
         .title-area {
           height: 100px;
         }
+
         .stage {
+          position: relative;
+        }
+
+        .pedestal-column-wrapper {
           display: flex;
-          justify-content: center;
-          align-items: flex-end;
+          flex-direction: column;
+          align-items: center;
+          position: absolute;
+          bottom: 0;
+          width: 120px;
         }
 
         .pedestal-column {
           border-radius: 6px 6px 0 0;
+          width: 100%;
         }
 
         .slide_dark .pedestal-column {
@@ -64,9 +73,11 @@ class SlideLeaders extends BaseSlide {
 
         .pedestal-column_1.pedestal-column_portrait {
           height: 48vh;
+          z-index: 2
         }
         .pedestal-column_2.pedestal-column_portrait {
           height: 41vh;
+          z-index: 1
         }
         .pedestal-column_3.pedestal-column_portrait {
           height: 34vh;
@@ -74,10 +85,12 @@ class SlideLeaders extends BaseSlide {
 
         .pedestal-column_1.pedestal-column_landscape {
           height: 29vh;
+          z-index: 2
         }
         .pedestal-column_2.pedestal-column_landscape,
         .pedestal-column_3.pedestal-column_landscape {
           height: 23.5vh;
+          z-index: 1
         }
         .pedestal-column_4.pedestal-column_landscape,
         .pedestal-column_5.pedestal-column_landscape {
@@ -113,7 +126,7 @@ class SlideLeaders extends BaseSlide {
 
     const topLeaderId = this.getTopLeaderId();
 
-    return rearrangedUsers.map(({ rank, person }) => {
+    return rearrangedUsers.map(({ rank, person }, index) => {
       const columnClasses = classNames(
         'pedestal-column',
         `pedestal-column_${rank}`,
@@ -122,7 +135,7 @@ class SlideLeaders extends BaseSlide {
       );
 
       return html`
-        <div>
+        <div class="pedestal-column-wrapper" style="left: ${this.calculateColumnPosition(index, rearrangedUsers.length)}">
           <person-leader
             .data=${person}
             theme=${this.theme}
@@ -135,10 +148,23 @@ class SlideLeaders extends BaseSlide {
     });
   }
 
-  render() {
-    console.log(this.renderPedestal());
+  calculateColumnPosition = (index: number, columnsCount: number) => {
+    const columnWidth = 120; // FIXME: adaptive
+    const overlapWidth = 16;
 
-    const topLeaderId = this.getTopLeaderId();
+    const midIndex = Math.floor(columnsCount / 2);
+    let left;
+    if (index === midIndex) {
+      left = `calc(50% - ${columnWidth / 2}px)`;
+    } else {
+      const multiplier = index - midIndex;
+      const shiftForOverlap = -1 * multiplier * overlapWidth;
+      left = `calc(50% + ${multiplier * columnWidth}px + ${shiftForOverlap}px - ${columnWidth / 2}px)`;
+    }
+    return left;
+  }
+
+  render() {
     return html`
       <div class="slide slide_${this.theme}">
         <div class="title-area">
