@@ -36,7 +36,7 @@ class SlideLeaders extends BaseSlide {
           position: relative;
         }
 
-        .pedestal-column-wrapper {
+        .podium-section {
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -45,56 +45,95 @@ class SlideLeaders extends BaseSlide {
           width: 120px;
         }
 
-        .pedestal-column {
+        .podium-column {
+          position: relative;          
           border-radius: 6px 6px 0 0;
           width: 100%;
         }
 
-        .slide_dark .pedestal-column {
+        .slide_dark .podium-column {
           background: linear-gradient(180deg, rgba(0, 0, 0, 0) -2.22%, rgba(0, 0, 0, 0.8) 100%),
             radial-gradient(149.08% 95.38% at 38.75% 71.48%, #000000 0%, #231900 0.01%, #4D4D4D 100%);
           box-shadow: inset -1px 1px 1px rgba(255, 255, 255, 0.2), inset 2px 2px 16px rgba(103, 103, 103, 0.6);
         }
 
-        .slide_dark .pedestal-column_1 {
+        .slide_dark .podium-column_1 {
           background: radial-gradient(91.67% 122.17% at 69.17% -11.17%, #FFA300 0%, #2D1C00 100%);
           box-shadow: inset -1px 1px 1px rgba(255, 255, 255, 0.4), inset 0px 6px 15px rgba(255, 162, 0, 0.4);
         }
 
-        .slide_light .pedestal-column {
+        .slide_light .podium-column {
           background: linear-gradient(180deg, rgba(244, 244, 244, 0.9) 0.82%, #E9E9E9 100%, rgba(234, 234, 234, 0) 100%);
           box-shadow: inset -1px 1px 1px rgba(255, 255, 255, 0.5), inset 0px 0px 20px rgba(207, 207, 207, 0.5);
         }
 
-        .slide_light .pedestal-column_1 {
+        .slide_light .podium-column_1 {
           background: linear-gradient(180deg, #FFF2D1 0.82%, #FFD66C 100%);
           box-shadow: inset -1px 1px 1px rgba(255, 255, 255, 0.5), inset 0px 0px 20px rgba(255, 176, 57, 0.8);
         }
 
-        .pedestal-column_1.pedestal-column_portrait {
+        .podium-column_1.podium-column_portrait {
           height: 48vh;
           z-index: 2
         }
-        .pedestal-column_2.pedestal-column_portrait {
+        .podium-column_2.podium-column_portrait {
           height: 41vh;
           z-index: 1
         }
-        .pedestal-column_3.pedestal-column_portrait {
+        .podium-column_3.podium-column_portrait {
           height: 34vh;
         }
 
-        .pedestal-column_1.pedestal-column_landscape {
+        .podium-column_1.podium-column_landscape {
           height: 29vh;
           z-index: 2
         }
-        .pedestal-column_2.pedestal-column_landscape,
-        .pedestal-column_3.pedestal-column_landscape {
+        .podium-column_2.podium-column_landscape,
+        .podium-column_3.podium-column_landscape {
           height: 23.5vh;
           z-index: 1
         }
-        .pedestal-column_4.pedestal-column_landscape,
-        .pedestal-column_5.pedestal-column_landscape {
+        .podium-column_4.podium-column_landscape,
+        .podium-column_5.podium-column_landscape {
           height: 18vh;
+        }
+
+        .podium-section_2.podium-section_portrait person-leader,
+        .podium-section_2.podium-section_landscape person-leader,
+        .podium-section_4.podium-section_landscape person-leader {
+          margin-left: 16px;
+        }
+
+        .podium-section_3.podium-section_portrait person-leader,
+        .podium-section_3.podium-section_landscape person-leader,
+        .podium-section_5.podium-section_landscape person-leader {
+          margin-right: 16px;
+        }
+
+        .podium-column-place-number {
+          position: absolute;
+          top: 4%;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 30px;
+        }
+        .podium-column_landscape .podium-column-place-number {
+          top: 5vh;
+        }
+        .slide_dark .podium-column-place-number {
+          color: white;
+        }
+        .podium-section_2.podium-section_portrait .podium-column-place-number,
+        .podium-section_2.podium-section_landscape .podium-column-place-number,
+        .podium-section_4.podium-section_landscape .podium-column-place-number {
+          transform: translateX(calc(-50% + 8px));
+          // margin-left: 16px;
+        }
+        .podium-section_3.podium-section_portrait .podium-column-place-number,
+        .podium-section_3.podium-section_landscape .podium-column-place-number,
+        .podium-section_5.podium-section_landscape .podium-column-place-number {
+          transform: translateX(calc(-50% - 4px));
+          // margin-right: 16px;
         }
       `
     ];
@@ -108,7 +147,7 @@ class SlideLeaders extends BaseSlide {
     return this.data.users[0].id;
   }
 
-  renderPedestal() {
+  renderpodium() {
     const maxIndex = this.orientation === 'portrait' ? 3 : 5;
     const users = this.data.users.slice(0, maxIndex);
     const rearrangedUsers: {rank: number, person: Person }[] = [];
@@ -127,21 +166,29 @@ class SlideLeaders extends BaseSlide {
     const topLeaderId = this.getTopLeaderId();
 
     return rearrangedUsers.map(({ rank, person }, index) => {
+      const sectionClasses = classNames(
+        'podium-section',
+        `podium-section_${rank}`,
+        `podium-section_${this.orientation}`
+      );
       const columnClasses = classNames(
-        'pedestal-column',
-        `pedestal-column_${rank}`,
-        `pedestal-column_${this.orientation}`,
-        {'pedestal-column_top': person.id === topLeaderId }
+        'podium-column',
+        `podium-column_${rank}`,
+        `podium-column_${this.orientation}`,
+        {'podium-column_top': person.id === topLeaderId }
       );
 
       return html`
-        <div class="pedestal-column-wrapper" style="left: ${this.calculateColumnPosition(index, rearrangedUsers.length)}">
+        <div class="${sectionClasses}" style="left: ${this.calculateColumnPosition(index, rearrangedUsers.length)}">
           <person-leader
             .data=${person}
             theme=${this.theme}
             emoji=${ifDefined(person.id === topLeaderId ? this.data.emoji : undefined)}
           ></person-leader>
           <div class=${columnClasses}>
+            <div class="podium-column-place-number">
+              ${rank}
+            </div>
           </div>
         </div>
       `
@@ -170,7 +217,7 @@ class SlideLeaders extends BaseSlide {
         <div class="title-area">
         </div>
         <div class="stage">
-          ${this.renderPedestal()}
+          ${this.renderpodium()}
         </div>
       </div>
     `;
