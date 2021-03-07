@@ -106,8 +106,30 @@ class SlideActivity extends BaseSlide {
     });
   }
 
+  // TODO: renderPortrait and renderLandscape look identical in the return statement;
+  // this can probably be combined into a single function
   renderPortrait() {
-    return html`lol`;
+    // transpose the activity matrix in order to have hours in columns rather than in rows
+    const allCommitHours = transpose(weekDays
+      .map(day => this.data.data[day]));
+
+    const rowClasses = classNames(
+      'row',
+      'row_portrait'
+    );
+
+    return allCommitHours.map((dayHours) => {
+      return html`
+        <div class=${rowClasses}>
+          ${dayHours.map(activityPerHour => {
+            return html`
+              <activity-indicator theme=${this.theme} activity=${activityPerHour}>
+              </activity-indicator>
+            `;
+          })}
+        </div>
+      `;
+    });
   }
 
 }
@@ -126,3 +148,8 @@ const condenseDailyActivity = (dailyActivity: number[]): number[] => {
   }
   return condensedActivity;
 };
+
+const transpose = (matrix: number[][]) => matrix.reduce(
+  (newMatrix, row) => row.map((_, i) => [...(newMatrix[i] || []), row[i]]),
+  [] as number[][]
+);

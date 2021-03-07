@@ -1,4 +1,4 @@
-import { LitElement, html, css, customElement, property } from 'lit-element';
+import { LitElement, html, customElement, property } from 'lit-element';
 
 
 @customElement('activity-indicator')
