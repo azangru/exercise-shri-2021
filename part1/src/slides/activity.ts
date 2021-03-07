@@ -6,6 +6,7 @@ import { BaseSlide } from './base-slide';
 import { resetStyles } from '../styles/reset';
 
 import '../components/activity-indicator';
+import '../components/slide-title';
 
 type SlideData = {
   title: string;
@@ -28,6 +29,7 @@ class SlideActivity extends BaseSlide {
           height: 100%;
           display: grid;
           grid-template-rows: [title] auto [main] 1fr;
+          padding: 0 24px;
         }
 
         .title-area {
@@ -75,7 +77,10 @@ class SlideActivity extends BaseSlide {
     
     
     return html`
-      <div class="title-area"></div>
+      <div class="title-area">
+        <slide-title title=${this.data.title} subtitle=${this.data.subtitle} orientation="${this.orientation}">
+        </slide-title>
+      </div>
       <div class="main">
         ${content}
       </div>
