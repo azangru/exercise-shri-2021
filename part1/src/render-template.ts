@@ -1,5 +1,6 @@
 import './slides/leaders';
 import './slides/activity';
+import './slides/diagram';
 
 const templateToComponentMap = {
   leaders: 'slide-leaders',

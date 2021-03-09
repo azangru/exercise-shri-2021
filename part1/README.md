@@ -23,3 +23,20 @@ Problem: due to the shadow DOM isolation, web components are unaware of the clas
 Reference designs are created only for the mobile screen; how should they scale up?
 
 ## RxJS to observe theme changes and orientation changes
+
+
+## Challenges
+
+- svg radial gradient
+
+## What I don't like about web components in general and lit/element/lit-html in particular
+
+- Web components effectively use global variables through their names. How well is it going to scale for large projects?
+
+- Can't compose svg from its parts using lit-html? E.g. the following didn't work:
+
+```ts
+${this.getSectors().map(sector => html`        
+  <path d=${sector} fill="url(#grad1)"></path>
+`)}
+```
