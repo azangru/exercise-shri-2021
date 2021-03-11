@@ -29,6 +29,9 @@ Reference designs are created only for the mobile screen; how should they scale 
 
 - svg radial gradient
 
+## What I like about LitElement
+- Performance (checked with resizing the window and making the chart rerender)
+
 ## What I don't like about web components in general and lit/element/lit-html in particular
 
 - Web components effectively use global variables through their names. How well is it going to scale for large projects?

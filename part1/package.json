@@ -26,6 +26,7 @@
     "webpack-dev-server": "3.11.2"
   },
   "dependencies": {
+    "@types/resize-observer-browser": "0.1.5",
     "classnames": "2.2.6",
     "d3-shape": "2.0.0",
     "lit-element": "2.4.0",
