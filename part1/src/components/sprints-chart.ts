@@ -13,8 +13,15 @@ class SprintsChart extends LitElement {
 
   static get styles() {
     return css`
+      :host {
+        display: block;
+      }
+
+      .plotting-area {
+        height: 90%;
+      }
+
       .plotting-area_portrait {
-        height: 40vh;
         position: relative;
       }
     `;
@@ -47,7 +54,6 @@ class SprintsChart extends LitElement {
   }
 
   render() {
-    console.log('this.plotSize', this.plotSize);
     this.renderPortrait();
     const plottingAreaClasses = classNames(
       'plotting-area',
