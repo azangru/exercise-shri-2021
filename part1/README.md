@@ -1,5 +1,8 @@
 # Summary
 
+# Dev tools
+If I was doing task 1 in isolation, I would have probably used Snowpack or maybe even esbuild to test its speed. But since task 3 was built with webpack, I thought it better to stick to webpack. 
+
 # Issues for consideration
 
 ## Whether to use a templating library and if so, which one

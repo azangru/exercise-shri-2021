@@ -14,11 +14,14 @@ class SprintsChart extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
       }
 
       .plotting-area {
-        height: 90%;
+        flex-grow: 0;
+        height: calc(100% - 3rem);
         position: relative;
       }
 
@@ -79,10 +82,11 @@ class SprintsChart extends LitElement {
           ? this.renderPortrait()
           : this.renderLandscape()
         }
-      </div>    
+      </div>
     `;
   }
 
+  // FIXME: combine renderPortrait and renderLandscape into a single function
   renderPortrait() {
     if (!this.plotSize) {
       return null;
@@ -154,7 +158,14 @@ class SprintsChart extends LitElement {
     const minHeight = Math.round(height * 0.02);
     const numBars = barsData.length;
     const intervalToBarRatio = 0.6;
-    const barWidth = width / (numBars + numBars * intervalToBarRatio); // 6x + 0.6x * 6 = width
+
+    /**
+     * nx + (n-1)*0.6x = width
+     * 1.6nx - 0.6x = width
+     * x(1.6n - 0.6) = width
+     * x = width / (1.6n - 0.6)
+    */
+    const barWidth = width / ((1 + intervalToBarRatio) * numBars - intervalToBarRatio);
     const intervalWidth = 0.6 * barWidth;
     const maxValue = barsData.reduce((acc, { value }) => {
       return Math.max(acc, value);
@@ -175,10 +186,11 @@ class SprintsChart extends LitElement {
         : 'inset -1px 1px 1px rgba(255, 255, 255, 0.2), inset 2px 2px 16px rgba(103, 103, 103, 0.6)';
       const barData = barsData[index]; 
 
+      // notice that for landscape, there shouldn't be a half-bar-width shift to the left,
       return html`
         <div style="
           position: absolute;
-          left: ${index * barWidth + index * intervalWidth - Math.round(barWidth / 5)}px;
+          left: ${index * barWidth + index * intervalWidth}px;
           bottom: 0;
           width: ${barWidth}px;
           height: ${height + minHeight}px;
