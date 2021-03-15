@@ -1,4 +1,5 @@
 import './slides/leaders';
+import './slides/vote';
 import './slides/activity';
 import './slides/diagram';
 import './slides/chart';

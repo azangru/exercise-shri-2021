@@ -34,6 +34,8 @@ Reference designs are created only for the mobile screen; how should they scale 
 
 ## What I like about LitElement
 - Performance (checked with resizing the window and making the chart rerender)
+- Don't need keys? Wow!
+- Learned to use the `:host` element (in comparison with how I always write components in something like React)
 
 ## What I don't like about web components in general and lit/element/lit-html in particular
 
