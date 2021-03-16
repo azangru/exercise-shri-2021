@@ -32,6 +32,14 @@ class SlideVote extends BaseSlide {
       .slide_portrait {
         padding: 0 24px;
       }
+
+      main {
+        display: flex;
+      }
+
+      .slide_portrait main {
+        justify-content: space-between;
+      }
     `
   }
 
@@ -87,16 +95,14 @@ class SlideVote extends BaseSlide {
     const secondGroup = people.slice(3, 5);
     const thirdGroup = people.slice(5);
     return html`
-      <people-vote
-        .people=${firstGroup}
-        theme=${this.theme}
-        orientation=${this.orientation}
-      ></people-vote>
+      ${this.renderPeoplePortrait(firstGroup)}
       <pager-vote
         theme=${this.theme}
         orientation=${this.orientation}
       >
+        ${this.renderPeoplePortrait(secondGroup)}
       </pager-vote>
+      ${this.renderPeoplePortrait(thirdGroup)}
     `;
   }
 
@@ -108,6 +114,16 @@ class SlideVote extends BaseSlide {
    */
   renderLandscape() {
 
+  }
+
+  renderPeoplePortrait(people: Person[]) {
+    return html`
+      <people-vote
+        .people=${people}
+        theme=${this.theme}
+        orientation=${this.orientation}
+      ></people-vote>
+    `;
   }
 
 }

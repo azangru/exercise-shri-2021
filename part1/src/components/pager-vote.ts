@@ -1,8 +1,6 @@
 import { LitElement, html, css, customElement, property } from 'lit-element';
 import classNames from 'classnames';
 
-import { Person } from '../types/person';
-
 type RenderButtonParams = {
   direction: 'up' | 'down';
   isActive: boolean;
@@ -20,11 +18,23 @@ class PagerVote extends LitElement {
 
   static get styles() {
     return css`
+      :host {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+      }
+
       .button_dark {
         fill: #BFBFBF;
       }
       .button_up {
         transform: rotate(180deg);
+      }
+
+      ::slotted(people-vote) {
+        height: 60%;
       }
     `;
   }
@@ -32,6 +42,9 @@ class PagerVote extends LitElement {
   render() {
     return html`
       ${this.renderButton({ direction: 'up', isActive: true, onClick: console.log })}
+      ${this.orientation === 'portrait' && html`
+        <slot></slot>
+      `}
       ${this.renderButton({ direction: 'down', isActive: true, onClick: console.log })}
     `;
   }
