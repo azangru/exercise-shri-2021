@@ -26,6 +26,18 @@ class PagerVote extends LitElement {
         justify-content: space-evenly;
       }
 
+      :host([orientation=landscape]) {
+        justify-content: center;
+      }
+
+      :host([orientation=landscape]) .button_up {
+        transform: translateY(-15%) rotate(180deg);
+      }
+
+      :host([orientation=landscape]) .button_down {
+        transform: translateY(15%);
+      }
+
       .button_dark {
         fill: #BFBFBF;
       }
@@ -55,7 +67,7 @@ class PagerVote extends LitElement {
       'button',
       `button_${this.theme}`,
       'button_active',
-      { button_up: params.direction === 'up' }
+      `button_${params.direction}`
     );
     return html`
       <svg
