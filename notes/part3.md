@@ -7,3 +7,13 @@ document.querySelector<HTMLDivElement>('.next').addEventListener('click', () => 
 ```
 
 a button with a `next` class was calling a `previous` action
+
+4) A similarly obvious CSS mistake: the height of an element that shows the time remaining for displaying a slide (apparently, slides are intended to change after a certain interval) was specified without the units:
+
+```
+.slide-progress-value {
+    height: 4;
+}
+```
+
+Fixed that; plus set an initial `transform: scaleX` value to enable the effect of gradually filling in the progress indicator.
