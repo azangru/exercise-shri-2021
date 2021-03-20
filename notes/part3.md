@@ -17,3 +17,15 @@ a button with a `next` class was calling a `previous` action
 ```
 
 Fixed that; plus set an initial `transform: scaleX` value to enable the effect of gradually filling in the progress indicator.
+
+5) The progress indicator stopped before it reached the last slide. The reason was that the stream responsible for advancing the slides based on the had a `take` operator that stopped the stream after an arbitrary number of slides:
+
+```
+     const changeSlideEffect$ = timerEffect$.pipe(
+        withLatestFrom(state$),
+        mergeMap(([a, s]) => s.progress >= DELAY ? of(actionNext()) : EMPTY),
+        take(5)
+     );
+```
+
+removed the take operator from the stream.
