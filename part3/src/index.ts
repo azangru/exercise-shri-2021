@@ -26,6 +26,7 @@ function onMessage({ data }: MessageEvent<XMessage>) {
 const player = document.querySelector<HTMLDivElement>('.player');
 const frames = stories.map(({ alias, data }) => initIframe(player, iframe => {
     sendMessage(iframe, messageUpdate(alias, data));
+    sendMessage(iframe, messageSetTheme(state$.value.theme));
     iframe.contentWindow.addEventListener('message', onMessage);
 }));
 

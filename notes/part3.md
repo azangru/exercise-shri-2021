@@ -43,3 +43,24 @@ export const createCurrentIndexSelector = (state$: Observable<State>) => state$.
 ```
 
 There was no reason for this `mergeMapTo` operator to be there; so it was clearly just a crude attempt to mess with the developers who would be debugging this code.
+
+7) According to the spec, the default theme should be dark. It is set to "light" in the default state:
+
+```
+const DEFAULT_STATE: State = {
+    theme: 'light',
+    index: 0,
+    progress: 0,
+    pause: false,
+    stories: [],
+};
+```
+
+Easy enough to update.
+
+8) When the initial theme got updated, it became obvious that:
+
+- theme classes on the target element were added, not toggled
+- the iframe did not receive the proper theme during initialization
+
+When getting the initial value from the state, it turned out that the type of the value returned from the `createState` function was also incorrect. The type was set manually as `Observable` whereas the function was in fact returning a `BehaviorSubject`. There was no reason to specify this type manually at all — typescript is smart enough to infer it correctly all by itself.
