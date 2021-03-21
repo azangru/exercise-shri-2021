@@ -29,3 +29,17 @@ Fixed that; plus set an initial `transform: scaleX` value to enable the effect o
 ```
 
 removed the take operator from the stream.
+
+6) Ok, at this point things have gotten weird. Apparently the player's code generates a number of iframes, one per slide, which get updated when the player advances a slide or switches to the previous slide. I am not yet sure whether it's brilliant or stupid. On the one hand, creating all those iframes sure is wasteful. On the other hand, having them all ready helps with slide transitions.
+
+In any case, dispatching the actions to switch the slides wasn't doing anything because of a sabotage. The observable that was responsible for listening to the changes in which slide to show ended with a `mergeMapTo(EMPTY)`, which immediately completed the stream and rendered it useless:
+
+```
+export const createCurrentIndexSelector = (state$: Observable<State>) => state$.pipe(
+    map(s => s.index),
+    distinctUntilChanged(),
+    mergeMapTo(EMPTY),
+);
+```
+
+There was no reason for this `mergeMapTo` operator to be there; so it was clearly just a crude attempt to mess with the developers who would be debugging this code.
