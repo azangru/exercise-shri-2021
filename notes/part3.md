@@ -64,3 +64,18 @@ Easy enough to update.
 - the iframe did not receive the proper theme during initialization
 
 When getting the initial value from the state, it turned out that the type of the value returned from the `createState` function was also incorrect. The type was set manually as `Observable` whereas the function was in fact returning a `BehaviorSubject`. There was no reason to specify this type manually at all — typescript is smart enough to infer it correctly all by itself.
+
+9) When the player starts playing the last slide, clicking on the Next button pauses the progress bar in an unfilled state. The problem was that in this scenario, the code would hit the `else` branch and pause without updating the `progress` value. 
+
+```
+case 'next':
+  if (draft.index + 1 < draft.stories.length) {
+      draft.index++;
+      draft.progress = 0;
+  } else {
+      draft.pause = true;
+  }
+
+  break;
+```
+Changed the `else` branch to first set the `draft.progress` value to the full `DELAY` value.
