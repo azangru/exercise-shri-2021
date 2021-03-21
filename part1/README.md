@@ -48,3 +48,7 @@ ${this.getSectors().map(sector => html`
   <path d=${sector} fill="url(#grad1)"></path>
 `)}
 ```
+
+That really annoyed me (╯°□°)╯︵ ┻━┻
+
+- Didn't try the box-shadow inset for the donut chart, which means that I am deviating from the spec. Maybe later?

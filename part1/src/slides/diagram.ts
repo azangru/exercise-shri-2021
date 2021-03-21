@@ -1,9 +1,9 @@
 import { html, customElement, property, css } from 'lit-element';
-import { arc as d3ArcFactory } from 'd3-shape';
 
 import { BaseSlide } from './base-slide';
 
 import '../components/donut-chart';
+import '../components/slide-title';
 
 // test with slide 9
 
@@ -27,6 +27,9 @@ class SlideDiagram extends BaseSlide {
     return css`
       :host {
         height: 100%;
+      }
+
+      .slide {
         display: grid;
         grid-template-rows: [title] auto [main] 1fr;
         padding: 0 24px;
@@ -39,25 +42,18 @@ class SlideDiagram extends BaseSlide {
         align-items: center;
       }
 
+      .slide_portrait donut-chart {
+        width: calc(100vw - 2 * 24px);
+      }
+
       donut-chart {
-        width: 328px;
-        height: 328px;
+        width: 64vh;
       }
     `;
   }
 
   @property({ type: Object })
   data!: SlideData
-
-  getArc() {
-    const arc = d3ArcFactory();
-    return arc({
-      innerRadius: 230 / 2,
-      outerRadius: 328 / 2,
-      startAngle: -(Math.PI),
-      endAngle: Math.PI / 2
-    });
-  }
 
   prepareChartData() {
     const regex = /(\d+)/;
@@ -69,15 +65,20 @@ class SlideDiagram extends BaseSlide {
 
   render() {
     return html`
-      <div>
-        Title
-      </div>
-      <div class="chart-wrapper">
-        <donut-chart
-          .primaryText=${this.data.totalText}
-          .secondaryText=${this.data.differenceText}
-          .data=${this.prepareChartData()}
-        ></donut-chart>
+      <div class="slide slide_${this.orientation}">
+        <slide-title
+          title=${this.data.title}
+          subtitle=${this.data.subtitle}
+          orientation="${this.orientation}"
+        ></slide-title>
+        <div class="chart-wrapper">
+          <donut-chart
+            .primaryText=${this.data.totalText}
+            .secondaryText=${this.data.differenceText}
+            .data=${this.prepareChartData()}
+            theme=${this.theme}
+          ></donut-chart>
+        </div>
       </div>
     `;
   }
