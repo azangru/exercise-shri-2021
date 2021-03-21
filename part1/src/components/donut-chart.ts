@@ -25,16 +25,31 @@ class DonutChart extends LitElement {
       }
 
       .text-primary {
-        font-size: 30px;
-        line-height: 32px;
+        line-height: 1.1;
         color: var(--body-color);
       }
 
       .text-secondary {
         font-size: 20px;
-        line-height: 22px;
+        line-height: 1.1;
         color: var(--body-grey-color);
         margin-top: 0.4em;
+      }
+
+      :host([orientation=portrait]) .text-primary {
+        font-size: clamp(1.5rem, 8vw, 4.5vh);
+      }
+
+      :host([orientation=landscape]) .text-primary {
+        font-size: clamp(1rem, 5.3vh, 5.3vh);
+      }
+
+      :host([orientation=portrait]) .text-secondary {
+        font-size: clamp(0.6rem, 5.3vw, 3vh);
+      }
+
+      :host([orientation=landscape]) .text-secondary {
+        font-size: clamp(0.4rem, 4.2vh, 2.4vw);
       }
     `;
   }

@@ -44,9 +44,10 @@ class SlideDiagram extends BaseSlide {
 
       .slide_portrait donut-chart {
         width: calc(100vw - 2 * 24px);
+        max-width: 50vh;
       }
 
-      donut-chart {
+      .slide_landscape donut-chart {
         width: 64vh;
       }
     `;
@@ -77,6 +78,7 @@ class SlideDiagram extends BaseSlide {
             .secondaryText=${this.data.differenceText}
             .data=${this.prepareChartData()}
             theme=${this.theme}
+            orientation=${this.orientation}
           ></donut-chart>
         </div>
       </div>
