@@ -182,8 +182,6 @@ class DonutChart extends LitElement {
     arc.padAngle(Math.PI * 0.004);
     arc.cornerRadius(5);
 
-    console.log('this.outerRadius', this.outerRadius);
-
     return arc({
       innerRadius: this.innerRadius,
       outerRadius: this.outerRadius,

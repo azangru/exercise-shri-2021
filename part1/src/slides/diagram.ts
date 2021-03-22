@@ -2,8 +2,9 @@ import { html, customElement, property, css } from 'lit-element';
 
 import { BaseSlide } from './base-slide';
 
-import '../components/donut-chart';
 import '../components/slide-title';
+import '../components/donut-chart';
+import '../components/donut-chart-legend';
 
 // test with slide 9
 
@@ -30,16 +31,28 @@ class SlideDiagram extends BaseSlide {
       }
 
       .slide {
+        height: 100%;
         display: grid;
         grid-template-rows: [title] auto [main] 1fr;
         padding: 0 24px;
       }
 
-      .chart-wrapper {
+      .main_portrait {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+      }
+
+      .main_landscape {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 6vw;
+        height: 100%;
+        align-items: center;
+        // flex-direction: column;
+        // justify-content: center;
+        // align-items: center;
       }
 
       .slide_portrait donut-chart {
@@ -48,7 +61,13 @@ class SlideDiagram extends BaseSlide {
       }
 
       .slide_landscape donut-chart {
+        justify-self: end;
         width: 64vh;
+        max-width: 42vw;
+      }
+
+      donut-chart-legend {
+        width: 100%;
       }
     `;
   }
@@ -64,6 +83,18 @@ class SlideDiagram extends BaseSlide {
     });
   }
 
+  prepareChartLegendData() {
+    return this.data.categories.map(item => {
+      const value = item.valueText.split(' ').shift();
+      const diff = item.differenceText.split(' ').shift();
+      return {
+        label: item.title,
+        value,
+        diff
+      }
+    });
+  }
+
   render() {
     return html`
       <div class="slide slide_${this.orientation}">
@@ -72,7 +103,7 @@ class SlideDiagram extends BaseSlide {
           subtitle=${this.data.subtitle}
           orientation="${this.orientation}"
         ></slide-title>
-        <div class="chart-wrapper">
+        <main class="main_${this.orientation}">
           <donut-chart
             .primaryText=${this.data.totalText}
             .secondaryText=${this.data.differenceText}
@@ -80,7 +111,12 @@ class SlideDiagram extends BaseSlide {
             theme=${this.theme}
             orientation=${this.orientation}
           ></donut-chart>
-        </div>
+          <donut-chart-legend
+            .data=${this.prepareChartLegendData()}
+            theme=${this.theme}
+            orientation=${this.orientation}
+          ></donut-chart-legend>
+        </main>
       </div>
     `;
   }
