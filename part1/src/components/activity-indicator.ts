@@ -1,8 +1,16 @@
-import { LitElement, html, customElement, property } from 'lit-element';
+import { LitElement, html, customElement, property, css } from 'lit-element';
 
 
 @customElement('activity-indicator')
 class ActtivityIndicator extends LitElement {
+
+  static get styles() {
+    return css`
+      img {
+        width: 100%;
+      }
+    `;
+  }
 
   @property({ type: String })
   theme!: string;

@@ -5,8 +5,9 @@ import { BaseSlide } from './base-slide';
 
 import { resetStyles } from '../styles/reset';
 
-import '../components/activity-indicator';
 import '../components/slide-title';
+import '../components/activity-indicator';
+import '../components/activity-legend';
 
 type SlideData = {
   title: string;
@@ -32,6 +33,24 @@ class SlideActivity extends BaseSlide {
           padding: 0 24px;
         }
 
+        @media (orientation: landscape) {
+          :host {
+            --row-height: 9vh;
+            --up-shift: -5.6vh;
+          }
+        }
+
+        @media (orientation: portrait) {
+          :host {
+            --row-height: 11.4vw;
+            --up-shift: -6.6vw;
+          }
+
+          .main {
+            margin-left: calc(-1 * var(--row-height) / 2);
+          }
+        }
+
         .title-area {
           height: 100px;
         }
@@ -43,25 +62,22 @@ class SlideActivity extends BaseSlide {
           align-items: center;
         }
 
-        .cell {
-          width: 45px;
-          height: 45px;
-          background: grey;
-          margin: 6px;
-        }
-
         .row {
           display: flex;
           align-items: flex-end;
-          height: 34px;
+          height: var(--row-height);
         }
 
         .row + .row {
-          margin-top: -21px; // ??? what on earth is this?
+          margin-top: var(--up-shift);
         }
 
         .row:nth-child(even) {
-          margin-left: 34px; // this is row height (same as cell width)
+          margin-left: var(--row-height);
+        }
+
+        activity-indicator {
+          width: var(--row-height);
         }
       `
     ]
@@ -83,6 +99,7 @@ class SlideActivity extends BaseSlide {
       </div>
       <div class="main">
         ${content}
+        <activity-legend theme=${this.theme} orientation=${this.orientation}></activity-legend>
       </div>
     `;
   }
