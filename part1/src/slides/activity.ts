@@ -46,7 +46,7 @@ class SlideActivity extends BaseSlide {
             --up-shift: -6.6vw;
           }
 
-          .main {
+          .chart-wrapper {
             margin-left: calc(-1 * var(--row-height) / 2);
           }
         }
@@ -55,10 +55,17 @@ class SlideActivity extends BaseSlide {
           height: 100px;
         }
 
-        .main {
+        .chart-wrapper {
           display: flex;
           flex-direction: column;
           justify-content: center;
+          align-items: center;
+        }
+
+        .main {
+          display: grid;
+          grid-template-rows: 1fr 9vh;
+          justify-items: center;
           align-items: center;
         }
 
@@ -98,7 +105,9 @@ class SlideActivity extends BaseSlide {
         </slide-title>
       </div>
       <div class="main">
-        ${content}
+        <div class="chart-wrapper">
+          ${content}
+        </div>
         <activity-legend theme=${this.theme} orientation=${this.orientation}></activity-legend>
       </div>
     `;
