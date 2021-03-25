@@ -42,8 +42,8 @@ class SlideActivity extends BaseSlide {
 
         @media (orientation: portrait) {
           :host {
-            --row-height: 11.4vw;
-            --up-shift: -6.6vw;
+            --row-height: min(7vh, 11.4vw);
+            --up-shift: max(-4.1vh, -6.6vw);
           }
 
           .chart-wrapper {

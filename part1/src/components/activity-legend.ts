@@ -18,18 +18,38 @@ class ActtivityLegend extends LitElement {
 
       .scale {
         position: relative;
-        // width: 51px;
-        // height: 4px;
         width: 13.6vw;
         height: 1vw;
+      }
+
+      @media (orientation: portrait) {
+        .scale {
+          width: 13.6vw;
+          height: 1vw;
+        }
+
+        .scale::before, .scale::after {
+          width: 1vw;
+          height: 3.2vw;
+        }
+      }
+
+      @media (orientation: landscape) {
+        .scale {
+          width: 13.6vh;
+          height: 1vh;
+        }
+
+        .scale::before, .scale::after {
+          width: 1vh;
+          height: 3.2vh;
+        }
       }
 
       .scale::before, .scale::after {
         content: '';
         position: absolute;
         top: 0;
-        width: 1vw;
-        height: 3.2vw;
         border-radius: 2px;     
       }
 
@@ -68,9 +88,21 @@ class ActtivityLegend extends LitElement {
       }
 
       .indicator {
-        width: 15.7vw;
-        height: 3.2vw;
         border-radius: 2px;
+      }
+
+      @media (orientation: portrait) {
+        .indicator {
+          width: 15.7vw;
+          height: 3.2vw;
+        }
+      }
+
+      @media (orientation: landscape) {
+        .indicator {
+          width: 15.7vh;
+          height: 3.2vh;
+        }
       }
 
       .indicator-lowest_dark {
