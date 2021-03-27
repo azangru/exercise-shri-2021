@@ -1,5 +1,4 @@
 import { LitElement, html, css, customElement, property } from 'lit-element';
-import { ifDefined } from 'lit-html/directives/if-defined';
 
 @customElement('slide-title')
 class SlideTitle extends LitElement {
@@ -18,21 +17,23 @@ class SlideTitle extends LitElement {
       css`
         h1 {
           font-family: var(--font-family-bold);
-          font-size: 30px;
-          line-height: 32px;
+          font-size: min(8vw, 8vh);
+          line-height: 1.07;
           color: var(--slide-title-color);
           margin-bottom: 0.27em;
         }
 
         h2 {
           color: var(--slide-subheading-color);
-          font-size: 16px;
+          font-size: min(4.25vw, 4.25vh);
           line-height: 18px;
           margin: 0;
         }
 
-        .centered {
-          text-align: center;
+        @media  (orientation: landscape) {
+          :host {
+            text-align: center;          
+          }
         }
       `
     ];
@@ -40,14 +41,10 @@ class SlideTitle extends LitElement {
 
   render() {
     return html`
-      <h1
-        class=${ifDefined(this.orientation === 'landscape' ? 'centered' : undefined)}
-      >
+      <h1>
         ${this.title}
       </h1>
-      <h2
-        class=${ifDefined(this.orientation === 'landscape' ? 'centered' : undefined)}
-      >
+      <h2>
         ${this.subtitle}
       </h2>
     `;
