@@ -6,9 +6,13 @@ class Avatar extends LitElement {
 
   static get styles() {
     return css`
+      :host {
+        display: block;
+      }
+
       img {
-        width: 64px;
-        height: 64px;
+        width: 100%;
+        max-height: 100%;
         border-radius: 50%;
         filter: var(--avatar-photo-filter, none);
       }
@@ -31,15 +35,15 @@ class Avatar extends LitElement {
 
   render() {
     const srcset = [
-      `/assets/images/1x/${this.file} 1x`,
-      `/assets/images/2x/${this.file} 2x`,
-      `/assets/images/3x/${this.file} 3x`,
-      `/assets/images/4x/${this.file} 4x`,
+      `/assets/images/1x/${this.file} 64w`,
+      `/assets/images/2x/${this.file} 128w`,
+      `/assets/images/3x/${this.file} 192w`,
+      `/assets/images/4x/${this.file} 256w`,
     ].join(',');
     const fallback = srcset[0];
 
     return html`
-      <img class=${ifDefined(this.small ? 'small' : undefined)} srcset="${srcset}" src="${fallback}" alt="${this.name}">
+      <img class=${ifDefined(this.small ? 'small' : undefined)} srcset="${srcset}" sizes="17vmin" src="${fallback}" alt="${this.name}">
     `;
   }
 
