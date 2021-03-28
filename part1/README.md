@@ -51,4 +51,7 @@ ${this.getSectors().map(sector => html`
 
 That really annoyed me (╯°□°)╯︵ ┻━┻
 
+- Not sure if there exists a way to enforce the typescript contract between the components. I.e. so that there was a check that a parent component provides the expected data to the child component. 
+
+## Other
 - Didn't try the box-shadow inset for the donut chart, which means that I am deviating from the spec. Maybe later?

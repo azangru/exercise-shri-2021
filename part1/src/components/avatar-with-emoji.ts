@@ -7,16 +7,14 @@ class AvatarWithEmoji extends LitElement {
     return css`
       .container {
         position: relative;
-        display: inline-block;
       }
 
       .emoji {
         position: absolute;
         top: 0;
         left: 50%;
-        transform: translate(-50%, calc(-100% + 10px));
+        transform: translate(-50%, calc(-100% + 31%));
         z-index: 1;
-        font-size: 32px;
         line-height: 1;
         top: 0;
       }
@@ -26,12 +24,42 @@ class AvatarWithEmoji extends LitElement {
   @property({type: String})
   emoji?: string;
 
+  @property({ type: Array })
+  dimensions: { width: number, height: number } | null = null;
+
+  observeSize = () => {
+    const resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        this.dimensions = { width, height };
+      }
+    });
+    resizeObserver.observe(this);
+  }
+
+  firstUpdated() {
+    this.observeSize();
+  }
+
   render() {
     return html`
       <div class="container">
-        <span class="emoji">${this.emoji}</span>
+        ${this.renderEmoji()}
         <slot></slot>
       </div>
+    `;
+  }
+
+  renderEmoji() {
+    if (!this.dimensions) {
+      return null;
+    }
+
+    const { width: containerWidth } = this.dimensions;
+    const fontSize = Math.floor(containerWidth * 0.5);
+
+    return html`
+      <span class="emoji" style="font-size: ${fontSize}px">${this.emoji}</span>
     `;
   }
 

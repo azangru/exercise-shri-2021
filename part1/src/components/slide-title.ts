@@ -26,7 +26,6 @@ class SlideTitle extends LitElement {
         h2 {
           color: var(--slide-subheading-color);
           font-size: min(4.25vw, 4.25vh);
-          line-height: 18px;
           margin: 0;
         }
 
