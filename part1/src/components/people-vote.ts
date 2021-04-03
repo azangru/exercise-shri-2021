@@ -16,8 +16,10 @@ class PeopleVote extends LitElement {
       }
 
       :host([orientation=portrait]) {
+        flex-grow: 1;
         flex-direction: column;
         justify-content: space-evenly;
+        align-items: center;
       }
 
       :host([orientation=landscape]) {

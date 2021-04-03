@@ -14,14 +14,31 @@ class PagerVote extends LitElement {
   static get styles() {
     return css`
       :host {
+        --vertical-padding: #FCFBF7;
+      }
+
+      :host, :host * {
+        box-sizing: border-box;
+      }
+
+      @media (max-aspect-ratio: 10/16) {
+        .wrapper {
+          padding: 6.1vh 0;
+        }
+      }
+
+      .wrapper {
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+      }
+
+      :host([orientation=portrait]) .wrapper {
         justify-content: space-evenly;
       }
 
-      :host([orientation=landscape]) {
+      :host([orientation=landscape]) .wrapper {
         justify-content: center;
       }
 
@@ -33,11 +50,7 @@ class PagerVote extends LitElement {
         transform: translateY(15%);
       }
 
-      :host([theme=dark]) .button {
-        fill: #BFBFBF;
-      }
-
-      :host([theme=light]) .button {
+      .button {
         fill: #C4C4C4;
       }
 
@@ -104,12 +117,18 @@ class PagerVote extends LitElement {
 
   render() {
     return html`
-      ${this.renderButton({ direction: 'up', isActive: true, onClick: () => this.onClick('up') })}
-      ${this.orientation === 'portrait' ? html`
-        <slot></slot>
-      ` : null}
-      ${this.renderButton({ direction: 'down', isActive: true, onClick: () => this.onClick('down') })}
+      <div class="wrapper">
+        ${this.renderButton({ direction: 'up', isActive: true, onClick: () => this.onClick('up') })}
+        ${this.orientation === 'portrait' ? html`
+          <slot></slot>
+        ` : null}
+        ${this.renderButton({ direction: 'down', isActive: true, onClick: () => this.onClick('down') })}
+      </div>
     `;
+  }
+
+  getPadding() {
+    // 
   }
 
   // arrow points down by default

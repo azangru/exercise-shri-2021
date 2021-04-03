@@ -17,10 +17,16 @@ class SlideTitle extends LitElement {
       css`
         h1 {
           font-family: var(--font-family-bold);
-          font-size: min(8vw, 8vh);
+          font-size: 8vmin;
           line-height: 1.07;
           color: var(--slide-title-color);
           margin-bottom: 0.27em;
+        }
+
+        @media (min-aspect-ratio: 13/16) and (max-aspect-ratio: 1/1) {
+          h1 {
+            font-size: 6vmin;
+          }
         }
 
         h2 {
