@@ -1,4 +1,5 @@
 import { LitElement, html, css, customElement, property } from 'lit-element';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import classNames from 'classnames';
 
 type RenderButtonParams = {
@@ -9,13 +10,7 @@ type RenderButtonParams = {
 
 @customElement('pager-vote')
 class PagerVote extends LitElement {
-
-  @property({ type: String })
-  theme!: string;
-
-  @property({ type: String })
-  orientation!: string;
-
+  
   static get styles() {
     return css`
       :host {
@@ -38,9 +33,26 @@ class PagerVote extends LitElement {
         transform: translateY(15%);
       }
 
-      .button_dark {
+      :host([theme=dark]) .button {
         fill: #BFBFBF;
       }
+
+      :host([theme=light]) .button {
+        fill: #C4C4C4;
+      }
+
+      .button_active {
+        cursor: pointer;
+      }
+
+      :host([theme=dark]) .button_active {
+        fill: var(--color-white);
+      }
+
+      :host([theme=light]) .button_active {
+        fill: var(--color-yellow);
+      }
+
       .button_up {
         transform: rotate(180deg);
       }
@@ -50,32 +62,70 @@ class PagerVote extends LitElement {
       }
     `;
   }
+
+  @property({ type: String })
+  theme!: string;
+
+  @property({ type: String })
+  orientation!: string;
+
+  @property({ type: Number })
+  currentOffset!: number;
+
+  @property({ type: Number })
+  total!: number;
   
   @property({ type: Number })
   buttonDiameter!: number;
 
+  get perPage() {
+    return this.orientation === 'portrait' ? 8 : 6;
+  }
+
+  onClick(direction: 'up' | 'down') {
+    const perPage = this.perPage;
+    const multiplier = direction === 'up' ? -1 : 1;
+    const newOffset = this.currentOffset + multiplier * perPage;
+    const eventData = {
+      alias: 'vote',
+      action: 'update',
+      params: {
+        offset: newOffset
+      }
+    };
+
+    const event = new CustomEvent('data-event', { 
+      detail: eventData,
+      bubbles: true, 
+      composed: true }
+    );
+    this.dispatchEvent(event);
+  }
+
   render() {
     return html`
-      ${this.renderButton({ direction: 'up', isActive: true, onClick: console.log })}
-      ${this.orientation === 'portrait' && html`
+      ${this.renderButton({ direction: 'up', isActive: true, onClick: () => this.onClick('up') })}
+      ${this.orientation === 'portrait' ? html`
         <slot></slot>
-      `}
-      ${this.renderButton({ direction: 'down', isActive: true, onClick: console.log })}
+      ` : null}
+      ${this.renderButton({ direction: 'down', isActive: true, onClick: () => this.onClick('down') })}
     `;
   }
 
   // arrow points down by default
   renderButton(params: RenderButtonParams) {
     const diameter = this.buttonDiameter;
+    const isButtonActive = this.isButtonActive(params)
     const buttonClasses = classNames(
       'button',
       `button_${this.theme}`,
-      'button_active',
-      `button_${params.direction}`
+      `button_${params.direction}`,
+      { 'button_active': isButtonActive },
     );
     return html`
       <svg
         class="${buttonClasses}"
+        @click=${ifDefined(isButtonActive ? params.onClick : undefined)}
         width="${diameter}"
         height="${diameter}"
         viewBox="0 0 64 64"
@@ -89,6 +139,15 @@ class PagerVote extends LitElement {
         />
       </svg>
     `;
+  }
+
+  isButtonActive(params: RenderButtonParams) {
+    if (params.direction === 'up') {
+      return this.currentOffset > 0;
+    } else {
+      const perPage = this.orientation === 'portrait' ? 8 : 6;
+      return this.total > this.currentOffset + perPage;
+    }
   }
 
 }

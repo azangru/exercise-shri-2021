@@ -126,6 +126,8 @@ class SlideVote extends BaseSlide {
       ${this.renderPeoplePortrait(firstGroup)}
       <pager-vote
         .buttonDiameter=${this.calculatePagerButtonDiameter()}
+        .currentOffset=${this.offset}
+        .total=${this.data.users.length}
         theme=${this.theme}
         orientation=${this.orientation}
       >
@@ -161,6 +163,8 @@ class SlideVote extends BaseSlide {
       ${this.renderPeopleLandscape(firstGroup, 'left')}
       <pager-vote
         .buttonDiameter=${this.calculatePagerButtonDiameter()}
+        .currentOffset=${this.offset}
+        .total=${this.data.users.length}
         theme=${this.theme}
         orientation=${this.orientation}
       >
