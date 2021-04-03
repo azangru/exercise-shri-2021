@@ -51,7 +51,17 @@ ${this.getSectors().map(sector => html`
 
 That really annoyed me (╯°□°)╯︵ ┻━┻
 
-- Not sure if there exists a way to enforce the typescript contract between the components. I.e. so that there was a check that a parent component provides the expected data to the child component. 
+- Not sure if there exists a way to enforce the typescript contract between the components. I.e. so that there was a check that a parent component provides the expected data to the child component.
+
+## Don't know whether like or dislike
+- Everything that happens inside the shadow DOM is invisible for the outside world. One consequence of this is that the events get retargeted so that even if something happens within the shadow root, the browser is informed about the event only at the component level. This is thee standard behavior of lit-element which doesn't seem to be modifiable.
 
 ## Other
 - Didn't try the box-shadow inset for the donut chart, which means that I am deviating from the spec. Maybe later?
+
+## Things that I learnt or used for the first time
+- vmin
+- min in css (although I used it in the sense of vmin)
+- @media with aspect-ratio
+- css variables
+- css for web components, incl. :host
