@@ -8,22 +8,10 @@ import { Person } from '../types/person';
 @customElement('people-vote')
 class PeopleVote extends LitElement {
 
-  @property({ type: String })
-  theme!: string;
-
-  @property({ type: String })
-  orientation!: string;
-
-  @property({ type: Array })
-  people!: Person[];
-  
-  @property({ type: String })
-  position: 'left' | 'right' | null = null;
-
   static get styles() {
     return css`
       :host {
-        display: inline-flex;
+        display: flex;
         height: 100%;
       }
 
@@ -50,6 +38,21 @@ class PeopleVote extends LitElement {
       }
     `;
   }
+
+  @property({ type: String })
+  theme!: string;
+
+  @property({ type: String })
+  orientation!: string;
+
+  @property({ type: Array })
+  people!: Person[];
+
+  @property({ type: Object })
+  personSize!: { width: number; height: number };
+  
+  @property({ type: String })
+  position: 'left' | 'right' | null = null;
 
   render() {
     return this.orientation === 'portrait'
@@ -90,8 +93,14 @@ class PeopleVote extends LitElement {
   }
 
   renderPeople(people: Person[]) {
+    const { width, height } = this.personSize;
     return people.map(person => html`
-      <person-vote .person=${person} theme=${this.theme}></person-vote>
+      <person-vote
+        .person=${person}
+        theme=${this.theme}
+        style="width: ${width}px; height: ${height}px;"
+      >
+      </person-vote>
     `);
   }
 

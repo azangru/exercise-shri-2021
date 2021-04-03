@@ -36,20 +36,44 @@ class PersonVote extends LitElement {
 
       .name {
         color: var(--body-color);
-        font-size: var(--font-size-medium);
+        font-size: 4.25vmin;
         text-align: center;
-        line-height: 18px;
+        line-height: 1.125;
       }
     `;
   }
 
+  @property({ type: Array })
+  dimensions: { width: number, height: number } | null = null;
+
+  observeSize = () => {
+    const resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        this.dimensions = { width, height };
+      }
+    });
+    resizeObserver.observe(this);
+  }
+
+  firstUpdated() {
+    this.observeSize();
+  }
+
   render() {
+    const width = this.dimensions?.width || this.getBoundingClientRect().width;
+    const fontSize = Math.max(
+      14,
+      Math.round(width * 0.15)
+    );
     return html`
       <x-avatar
         name="${this.person.name}"
         file="${this.person.avatar}"
       ></x-avatar>
-      <div class="name">${this.person.name}</div>
+      <div class="name" style="font-size: ${fontSize}px">
+        ${this.person.name}
+      </div>
     `;
   }
 

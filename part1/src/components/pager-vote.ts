@@ -50,6 +50,9 @@ class PagerVote extends LitElement {
       }
     `;
   }
+  
+  @property({ type: Number })
+  buttonDiameter!: number;
 
   render() {
     return html`
@@ -63,6 +66,7 @@ class PagerVote extends LitElement {
 
   // arrow points down by default
   renderButton(params: RenderButtonParams) {
+    const diameter = this.buttonDiameter;
     const buttonClasses = classNames(
       'button',
       `button_${this.theme}`,
@@ -72,8 +76,8 @@ class PagerVote extends LitElement {
     return html`
       <svg
         class="${buttonClasses}"
-        width="64"
-        height="64"
+        width="${diameter}"
+        height="${diameter}"
         viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

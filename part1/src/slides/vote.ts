@@ -30,7 +30,7 @@ class SlideVote extends BaseSlide {
       }
 
       .slide_portrait {
-        padding: 0 24px;
+        padding: 0 6.4vw;
       }
 
       main {
@@ -57,12 +57,29 @@ class SlideVote extends BaseSlide {
   @property({ type: Number })
   offset: number = 0;
 
+  @property({ type: Object })
+  stageDimensions: { width: number, height: number } | null = null;
+
   connectedCallback() {
     super.connectedCallback();
 
     if (this.data.offset) {
       this.offset = this.data.offset;
     }
+  }
+
+  observeSize = () => {
+    const resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        this.stageDimensions = { width, height };
+      }
+    });
+    resizeObserver.observe(this.shadowRoot?.querySelector('main') as HTMLElement);
+  }
+
+  firstUpdated() {
+    this.observeSize();
   }
 
   render() {
@@ -83,7 +100,7 @@ class SlideVote extends BaseSlide {
               ? this.renderPortrait()
               : this.renderLandscape()
           }
-        <main>
+        </main>
       </div>
     `;
   }
@@ -98,6 +115,9 @@ class SlideVote extends BaseSlide {
    * - equal distances between people elements vertically
    */
   renderPortrait() {
+    if (!this.stageDimensions) {
+      return null;
+    }
     const people = this.data.users.slice(this.offset, this.offset + 8);
     const firstGroup = people.slice(0, 3);
     const secondGroup = people.slice(3, 5);
@@ -105,6 +125,7 @@ class SlideVote extends BaseSlide {
     return html`
       ${this.renderPeoplePortrait(firstGroup)}
       <pager-vote
+        .buttonDiameter=${this.calculatePagerButtonDiameter()}
         theme=${this.theme}
         orientation=${this.orientation}
       >
@@ -121,6 +142,9 @@ class SlideVote extends BaseSlide {
    * - equal distances between people elements horizontally
    */
   renderLandscape() {
+    if (!this.stageDimensions) {
+      return null;
+    }
     const people = this.data.users.slice(this.offset, this.offset + 6);
     const firstGroup = [
       people[0],
@@ -136,6 +160,7 @@ class SlideVote extends BaseSlide {
     return html`
       ${this.renderPeopleLandscape(firstGroup, 'left')}
       <pager-vote
+        .buttonDiameter=${this.calculatePagerButtonDiameter()}
         theme=${this.theme}
         orientation=${this.orientation}
       >
@@ -148,6 +173,7 @@ class SlideVote extends BaseSlide {
     return html`
       <people-vote
         .people=${people}
+        .personSize=${this.calculatePersonSize()}
         theme=${this.theme}
         orientation=${this.orientation}
       ></people-vote>
@@ -158,6 +184,7 @@ class SlideVote extends BaseSlide {
     return html`
       <people-vote
         .people=${people}
+        .personSize=${this.calculatePersonSize()}
         theme=${this.theme}
         orientation=${this.orientation}
         position=${position}
@@ -165,4 +192,51 @@ class SlideVote extends BaseSlide {
     `;
   }
 
+  calculatePersonSize() {
+    const { width: viewportWidth, height: viewportHeight } = this.getBoundingClientRect();
+    const minDimension = Math.min(viewportWidth, viewportHeight);
+    const containerWidth = this.stageDimensions?.width as number;
+    const containerHeight = this.stageDimensions?.height as number;
+
+    let height: number, width: number;
+    if (this.orientation === 'portrait') {
+      const maxWidth = Math.round(minDimension * 0.28);
+      const maxHeight = containerHeight / 3.2;
+      const potentialWidth = Math.min(
+        Math.round(containerWidth * 0.317),
+        maxWidth
+      );
+      const potentialHeight = potentialWidth * 1.365;
+      if (potentialHeight <= maxHeight) {
+        width = Math.round(potentialWidth);
+        height = Math.round(potentialHeight);
+      } else {
+        height = Math.round(maxHeight);
+        width = Math.round(maxHeight / 1.365);
+      }
+      height = Math.round(width * 1.365);
+    } else {
+      const maxHeight = Math.round(minDimension * 0.32);
+      height = Math.min(
+        Math.round(containerHeight * 0.4765),
+        maxHeight
+      );
+      width = Math.round(height / 1.365);
+    }
+    return { width, height };
+  }
+
+  calculatePagerButtonDiameter() {
+    const { width: personWidth } = this.calculatePersonSize();
+    let diameter = personWidth * 0.615;
+
+    if (this.orientation === 'landscape') {
+      diameter = Math.min(
+        diameter,
+        window.innerWidth - personWidth * 4.05
+      );
+    }
+    return Math.round(diameter);
+  }
+  
 }
