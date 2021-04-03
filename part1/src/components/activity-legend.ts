@@ -18,32 +18,13 @@ class ActtivityLegend extends LitElement {
 
       .scale {
         position: relative;
-        width: 13.6vw;
-        height: 1vw;
+        width: 13.6vmin;
+        height: 1vmin;
       }
 
-      @media (orientation: portrait) {
-        .scale {
-          width: 13.6vw;
-          height: 1vw;
-        }
-
-        .scale::before, .scale::after {
-          width: 1vw;
-          height: 3.2vw;
-        }
-      }
-
-      @media (orientation: landscape) {
-        .scale {
-          width: 13.6vh;
-          height: 1vh;
-        }
-
-        .scale::before, .scale::after {
-          width: 1vh;
-          height: 3.2vh;
-        }
+      .scale::before, .scale::after {
+        width: 1vmin;
+        height: 3.2vmin;
       }
 
       .scale::before, .scale::after {
