@@ -64,8 +64,5 @@ module.exports = (env) => {
       filename: 'stories.js',
       path: path.resolve(__dirname, 'build')
     },
-    optimization: {
-      minimize: false,
-    },
   }
 };
