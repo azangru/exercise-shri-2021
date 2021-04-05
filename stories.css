@@ -1,0 +1,66 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+@font-face {
+  font-family: "Roboto Medium";
+  font-style: normal;
+  font-weight: normal;
+  src: url(13a29228654d5c5ec9c4.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: "Roboto Bold";
+  font-style: normal;
+  font-weight: bold;
+  src: url(4f39c5796e60c9d8e732.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: "Roboto Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: url(03523cf578d69fa92322.ttf) format('truetype');
+}
+
+:root {
+  --color-black: #261C00;
+  --color-grey-on-light: #BFBFBF;
+  --color-grey-on-dark: #918F8A;
+  --color-yellow: #F4B000;
+  --color-white: #FCFBF7;
+
+  --font-size-medium: 16px;
+  --font-size-small: 14px;
+
+  --font-family-medium: "Roboto Medium", serif;
+  --font-family-bold: "Roboto Bold", serif;
+  --font-family-thin: "Roboto Regular", serif;
+}
+
+body {
+  font-family: var(--font-family-medium);
+}
+
+.theme_light {
+  --body-color: var(--color-black);
+  --body-grey-color: var(--color-grey-on-light);
+  --slide-title-color: var(--color-black);
+  --slide-subheading-color: var(--color-grey-on-light);
+}
+
+.theme_dark {
+  background: radial-gradient(circle at 50% 50%, #130E00 0%, #000000 100%);
+
+  --body-color: var(--color-white);
+  --body-grey-color: var(--color-grey-on-dark);
+  --slide-title-color: var(--color-white);
+  --slide-subheading-color: var(--color-grey-on-dark);
+
+  --avatar-photo-filter: grayscale(100%);
+}
+
+
+/*# sourceMappingURL=stories.css.map*/
