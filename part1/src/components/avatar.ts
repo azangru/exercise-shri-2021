@@ -35,10 +35,10 @@ class Avatar extends LitElement {
 
   render() {
     const srcset = [
-      `/assets/images/1x/${this.file} 64w`,
-      `/assets/images/2x/${this.file} 128w`,
-      `/assets/images/3x/${this.file} 192w`,
-      `/assets/images/4x/${this.file} 256w`,
+      `./assets/images/1x/${this.file} 64w`,
+      `./assets/images/2x/${this.file} 128w`,
+      `./assets/images/3x/${this.file} 192w`,
+      `./assets/images/4x/${this.file} 256w`,
     ].join(',');
     const fallback = srcset[0];
 
