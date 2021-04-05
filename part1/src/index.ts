@@ -18,10 +18,13 @@ const main = async () => {
 
   if (slideData) {
     const { alias, data } = slideData;
-    renderTemplate(alias, data);
+    document.body.innerHTML = renderTemplate(alias, data);
   }
 };
 
-main();
+// @ts-ignore Injected be webpack define plugin
+if (!IS_PRODUCTION) {
+  main();
+}
 
 addToWindow('renderTemplate', renderTemplate);

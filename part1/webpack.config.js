@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -16,6 +17,9 @@ module.exports = (env) => {
         { from: 'src/assets', to: 'assets' },
         { from: 'src/data/data.json', to: "data.json" }
       ],
+    }),
+    new webpack.DefinePlugin({
+      IS_PRODUCTION: JSON.stringify(mode === 'production')
     })
   ];
 
@@ -59,6 +63,9 @@ module.exports = (env) => {
     output: {
       filename: 'stories.js',
       path: path.resolve(__dirname, 'build')
-    }
+    },
+    optimization: {
+      minimize: false,
+    },
   }
 };
